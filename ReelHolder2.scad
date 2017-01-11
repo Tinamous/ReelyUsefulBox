@@ -69,7 +69,7 @@ module base() {
             translate([(supportLength - riserLength)/2, 0, 12]) {
                 translate([riserLength/2, 0, 0]) {
                     rotate([-90,0,0]) {                
-                        #cylinder(d=reelTubeDiameter+0.5, h=supportWidth);
+                        cylinder(d=reelTubeDiameter+0.5, h=supportWidth);
                     }
                 }
             }
@@ -82,7 +82,14 @@ module base() {
             translate([(supportLength)/2 , supportWidth , 12]) {
                 //cube([40, 2, 25]);
                 rotate([90,0,0]) {
-                    cylinder(d=40, h=2);
+                    cylinder(d=40, h=riserWidth + 0.3);
+                }
+            }
+            
+            translate([(supportLength)/2 , riserWidth +0.3, 12]) {
+                //cube([40, 2, 25]);
+                rotate([90,0,0]) {
+                    cylinder(d=40, h=riserWidth +0.3);
                 }
             }
             
@@ -160,7 +167,10 @@ module showReel() {
         translate([riserLength/2, 0, riserHeight]) {
             rotate([-90,0,0]) {                
                 color("green") {
-                    cylinder(d=180, h=10);
+                    difference() {
+                        cylinder(d=180, h=10);
+                        cylinder(d=13, h=10.1);
+                    }
                 }
             }
         }
@@ -170,11 +180,11 @@ module showReel() {
 difference() {
     union() {
         // Print these seperatly
-        //base();
+        base();
         
         translate([(supportLength - riserLength)/2, 0, 12]) {
             rotate([0,00]) {
-                riser();
+                //riser();
             
                 //showReel();
             }
