@@ -112,7 +112,7 @@ echo("Led Hole X", ledHoleX);
         // Hollow out xmm (3) for a 3mm LED to be inserted
         // Expect this will be glued or on a PCB
         // so allow a tollerance.
-        cylinder(d=3.1, h=baseHeight-2);
+        cylinder(d=3, h=baseHeight-1.5);
         
     }
 }
@@ -174,7 +174,7 @@ translate([blockXOffset,0, 5 + smdTapeGap ]) {
             translate([1.5, 0, 17.5]) {
                 rotate([-90,0,0]) {
                         // Pin hole.
-                    cylinder(d=3, h=blockWidth, $fn=100);
+                    #cylinder(d=3, h=blockWidth, $fn=100);
                 }
             }
         }
