@@ -22,7 +22,7 @@ This is the drilling guide. You can either print it out and drill, or laser cut 
 * Stick the sheet to the box lid, allow a margin of about 4mm around the edges where the lid inner curves up (remember the reel holder top has to fit inside).
 * Ensure the holes line up with the SMDReelyUsefulDispenser.
 * Drill the holes. 
-** 3.5MM for the M3 screw holes (4x).
+** 4MM for the M3 screw holes (4x).
 ** 5mm for the LED insert.
 ** 9-10mm for the square tape hole. This is likely to crack the lid in the process, maybe drill 4 M3.5 holes at each corner and cut, or cut out the entire length of all the sections with a dremmel of something  (Be VERY careful if you use a knife, the lid is very tough!).
 
@@ -61,10 +61,23 @@ These hold the reel and is mounted in the ReelHolder-Top.
 
 # Parts Required:
 
-M3 Heatfit insert Part 1010655 http://www.insertsdirect.com/cgi-bin/sh000001.cgi?WD=1010655&PN=unheaded-heatfit-insert%2ehtml#a1010655
-M3 x 20mm countersunk machine screw (x5 per reel)
-M3 x 6mm countersunk machine screw (x1 for end reels only, or x2 per reel if you need to keep the reeel arms together).
-19XL Really Useful Box http://www.ryman.co.uk/really-useful-storage-box-19xl-litre
-PLA.
-Drills: 3.5mm, 5mm, 9 or 10mm.
-SMD devices on reels!
+* M3 Heatfit insert Part 1010655 http://www.insertsdirect.com/cgi-bin/sh000001.cgi?WD=1010655&PN=unheaded-heatfit-insert%2ehtml#a1010655
+* M3 x 20mm countersunk machine screw (x5 per reel)
+* M3 x 6mm countersunk machine screw (x1 for end reels only, or x2 per reel if you need to keep the reeel arms together).
+* 19XL Really Useful Box http://www.ryman.co.uk/really-useful-storage-box-19xl-litre
+* PLA.
+* Drills: 4mm, 5mm, 9 or 10mm.
+* SMD devices on reels!
+
+## Printer Settings
+
+* Printer: Ultimaker 2 Extended+
+* Print Sequence: One at a Time
+* Profile: Fast print
+** Layer Height: 0.15
+** Infil: 20%
+** Speed: 60 mm/s
+** Wall Thickness: 0.7mm
+** Top/Bottom Thickness: 0.75mm
+* Build Plate Adhesion: Brim
+* Support: None
