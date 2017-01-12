@@ -1,11 +1,11 @@
-Reely Useful Box - SMD Reel storage and dispenser.
+Rely Useful Box - SAD Reel storage and dispenser.
 ==================================================
 
-SMD reel storage and dispenser based on a 19XL Really Useful Storage Box.
+SAD reel storage and dispenser based on a 19XL Really Useful Storage Box.
 
 ![Part build dispenser](/Images/DispenserX4.jpg)
 
-Each reel is held and dispenced individually.
+Each reel is held and dispensed individually.
 The box will hold 25 individual reels (assuming standard 8mm tape for resistors/capacitors).
 Each reel holder is 13mm wide. For wider tape/reels this could be doubled to keep to the same hole grid.
 Each reel holder is made of 3 different printed parts (1x Top dispenser, 1x reel holder top, 2x reel arms).
@@ -22,11 +22,11 @@ This is the drilling guide. You can either print it out and drill, or laser cut 
 * Open the .svg file in Inkscape and print this out. 
 * It's bigger than A4/Letter, do not scale it! (The box is bigger than A4 length ways so you will need a couple of these for the full 25 way box).
 * Stick the sheet to the box lid, allow a margin of about 4mm around the edges where the lid inner curves up (remember the reel holder top has to fit inside).
-* Ensure the holes line up with the SMDReelyUsefulDispenser.
+* Ensure the holes line up with the Dispenser.
 * Drill the holes. 
 ** 4MM for the M3 screw holes (4x).
 ** 5mm for the LED insert.
-** 9-10mm for the square tape hole. This is likely to crack the lid in the process, maybe drill 4 M3.5 holes at each corner and cut, or cut out the entire length of all the sections with a dremmel of something  (Be VERY careful if you use a knife, the lid is very tough!).
+** 9-10mm for the square tape hole. This is likely to crack the lid in the process, maybe drill 4 M3.5 holes at each corner and cut, or cut out the entire length of all the sections with a dremel of something  (Be VERY careful if you use a knife, the lid is very tough!).
 
 ##Dispenser
 
@@ -74,7 +74,7 @@ These hold the reel and is mounted in the ReelHolder-Top.
 
 * M3 Heatfit insert Part 1010655 http://www.insertsdirect.com/cgi-bin/sh000001.cgi?WD=1010655&PN=unheaded-heatfit-insert%2ehtml#a1010655
 * M3 x 20mm countersunk machine screw (x5 per reel)
-* M3 x 6mm countersunk machine screw (x1 for end reels only, or x2 per reel if you need to keep the reeel arms together).
+* M3 x 6mm countersunk machine screw (x1 for end reels only, or x2 per reel if you need to keep the reel arms together).
 * 19XL Really Useful Box http://www.ryman.co.uk/really-useful-storage-box-19xl-litre
 * PLA.
 * Drills: 4mm, 5mm, 9 or 10mm.
