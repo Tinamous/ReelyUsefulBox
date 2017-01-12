@@ -33,7 +33,7 @@ tapeHoleOffsetFromBlock = 3;
 
 // How thick the back (well side) support structure is
 // the tape sits against this.
-backerWidth = 1.5; // Was 2.
+backerWidth =  1.5; // Was 2.
 // 8mm tape + backer = 9.5mm, 
 // 13mm block -> 3.5mm play on the left.
 // 12mm tape + backer = 13.5 >> block width
@@ -58,21 +58,21 @@ module enteranceCutout() {
         rotate([0,-14,0]) {
             translate([-10,0,-8]) {
                 translate([10,0 , 0]) {
-                    cube([65,blockWidth  - backerWidth,2]);
+                    cube([65,blockWidth  - backerWidth,4]);
                 }
             }
         }
     }
 }
 
-module exitCutout() {
+module exitRamp() {
     // 116 offset from the front of the block
     // is about 10 1206 components.
     // TODO: Compute it better!
-    translate([163,0,0]) {
-        rotate([0,8,0]) {
+    translate([163,0,-5]) {
+        rotate([0,-7,0]) {
             translate([0,0,5]) {
-                #cube([40,blockWidth - backerWidth,2]);
+                cube([28,blockWidth,5]);
             }
         }
     }
@@ -103,11 +103,11 @@ module ledCounterHole() {
     // Then move in by xmm for the tape hole position
 ledHoleX = blockXOffset - tapeHoleOffsetFromBlock;
 echo("Led Hole X", ledHoleX);
+ledHoleY = blockWidth - (tapeHoleOffset + backerWidth);
+echo("Led Hole Y", ledHoleY);
     
-    translate([blockXOffset - tapeHoleOffsetFromBlock,
-                (blockWidth-backerWidth) - tapeHoleOffset, 
-                -0.1]) {
-        cylinder(d=1.5, h=baseHeight+0.2);
+    translate([blockXOffset - tapeHoleOffsetFromBlock,ledHoleY, -0.1]) {
+        #cylinder(d=1.5, h=baseHeight+0.2);
                     
         // Hollow out xmm (3) for a 3mm LED to be inserted
         // Expect this will be glued or on a PCB
@@ -129,15 +129,16 @@ difference() {
     union() {
         cube([baseLength, blockWidth, baseHeight]);
         addMarker();
+        
+        // NOW - ramp up to get the tape past the box edge.
+        exitRamp();
     }
     union() {
         // cut out for tape to come up through.
         // 2mm offset to align with the backing block
         enteranceCutout();
         
-        // cut out for tape to EXIT through.
-        // 2mm offset to align with the backing block
-        exitCutout();
+        
         
         // Screw holes
         screwHoles();
@@ -174,7 +175,7 @@ translate([blockXOffset,0, 5 + smdTapeGap ]) {
             translate([1.5, 0, 17.5]) {
                 rotate([-90,0,0]) {
                         // Pin hole.
-                    #cylinder(d=3, h=blockWidth, $fn=100);
+                    cylinder(d=3, h=blockWidth, $fn=100);
                 }
             }
         }
