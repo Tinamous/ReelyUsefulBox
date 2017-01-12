@@ -2,7 +2,7 @@ $fn=80;
 
 // 25 for full width.
 // 23 for A4 Max + 2 supports either wide.
-blockCount = 23;
+blockCount = 25;
 blockWidth = 13;
 
 width = blockWidth * blockCount;
