@@ -3,6 +3,8 @@ Reely Useful Box - SMD Reel storage and dispenser.
 
 SMD reel storage and dispenser based on a 19XL Really Useful Storage Box.
 
+![Part build dispenser](/Images/DispenserX4.jpg)
+
 Each reel is held and dispenced individually.
 The box will hold 25 individual reels (assuming standard 8mm tape for resistors/capacitors).
 Each reel holder is 13mm wide. For wider tape/reels this could be doubled to keep to the same hole grid.
@@ -13,7 +15,7 @@ You can have as few as you want, or as many (well 25 per box and as many boxes a
 
 All design files are Openscad and .stl for direct printing. I found it best to print with a brim as these are long parts and have a tendency to warp at the ends.
 
-#MountingPlate
+##MountingPlate
 
 This is the drilling guide. You can either print it out and drill, or laser cut some acrylic with it.
 
@@ -26,9 +28,18 @@ This is the drilling guide. You can either print it out and drill, or laser cut 
 ** 5mm for the LED insert.
 ** 9-10mm for the square tape hole. This is likely to crack the lid in the process, maybe drill 4 M3.5 holes at each corner and cut, or cut out the entire length of all the sections with a dremmel of something  (Be VERY careful if you use a knife, the lid is very tough!).
 
-#Dispenser
+##Dispenser
 
 This sits on the top of the lid. 
+
+Print in any color you like, you can color code the dispensers to match your components. I'm using:
+
+* 1206 Resistors: Red
+* 0805 Resistors: Green
+* 1206 Capacitors: White
+* 0805 Capacitors: Grey
+* 1206 LEDs (Blue): Blue
+* Other: Bronze
 
 Original inspiration taken from http://www.thingiverse.com/thing:1080195 with modifications.
 
@@ -39,7 +50,7 @@ Original inspiration taken from http://www.thingiverse.com/thing:1080195 with mo
 * Of you can just leave the film on if you want to cut of a section of tape.
 * The top block has a hold in the back. Use a M3 heatfit   insert in here if you want to use the component usage sensor block.
 
-# ReelHolder-Top
+## ReelHolder-Top
 
 This sits inside the box to hold the reel arms and is screwed to the lid with the dispenser on the top.
 
@@ -48,7 +59,7 @@ This sits inside the box to hold the reel arms and is screwed to the lid with th
 * The M5 hole allows a 3mm LED to be pushed through into the dispenser 
 
 
-# ReelHolder-Arm
+## ReelHolder-Arm
 
 These hold the reel and is mounted in the ReelHolder-Top.
 
@@ -59,7 +70,7 @@ These hold the reel and is mounted in the ReelHolder-Top.
 * You may also like to shorten these arms. The variable armHeight sets the length of these. 150mm should allow the reel to be pulled to one side to be replaced.
 
 
-# Parts Required:
+## Parts Required:
 
 * M3 Heatfit insert Part 1010655 http://www.insertsdirect.com/cgi-bin/sh000001.cgi?WD=1010655&PN=unheaded-heatfit-insert%2ehtml#a1010655
 * M3 x 20mm countersunk machine screw (x5 per reel)
