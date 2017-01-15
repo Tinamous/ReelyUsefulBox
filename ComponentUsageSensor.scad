@@ -18,13 +18,14 @@ tapeHoleOffsetFromBlock = 3;
 
 // This should match the roll over block height
 // excludes the tape gap.
-bodyHeight = 18 - smdTapeGap;
+bodyHeight = 16 - smdTapeGap; // Was 18.
+echo("bodyHeight",bodyHeight);
 
 // How long on the x axis this is.
 // From Dispenser.
 // blockXOffset = 70;
 //length = 102; block offset is 87mm
-length = blockXOffset -1; //86; // Or 85?
+length = blockXOffset - 1; //86; // Or 85?
 
 // This is 0.5mm less than the main dispenser so that
 // the tape doesn't hit as it enters the dispenser.
@@ -95,26 +96,30 @@ screwHeadDepth = length - 4;
 }
 
 module lightSensorHole() {
-    translate([70 - tapeHoleOffsetFromBlock,blockWidth - backerWidth - tapeHoleOffset ,-0.1]) {
-        // Small hole all the way up
-        cylinder(d=2, h=bodyHeight + tapeGap + 0.2);
-        
-        // Bigger hole at top for the sensor to be pushed into
-        translate([0,0,6]) {
-            cylinder(d=3, h=bodyHeight + tapeGap + 0.2);
-        }
-        
-        // And an even bigger hole for the wide part of the sensor.
-        // so that the PCB can sit flush onto the block.
-        translate([0,0,bodyHeight-2]) {
-            #cylinder(d=6, h=2 + 0.2);
+    translate([0,0,0]) {
+        translate([70 - tapeHoleOffsetFromBlock, blockWidth - backerWidth - tapeHoleOffset,-0.1]) {
+            // Small hole all the way up
+            cylinder(d=2, h=bodyHeight - tapeGap + 0.2);
+            
+            // Bigger hole at top for the sensor to be pushed into
+            translate([0,0, tapeGap + 2]) {
+                cylinder(d=3, h=bodyHeight - tapeGap);
+            }
+            
+            // And an even bigger hole for the wide part of the sensor.
+            // so that the PCB can sit flush onto the block.
+            // LED body length is about 5-6 mm.
+            // Allow 1mm only for the top part.
+            translate([0,0,bodyHeight - 1]) {
+                cylinder(d=6, h= 1.2);
+            }
         }
     }
 }
 
 module pcbMountingHoles() {
     
-screwHoleDepth = 6;
+screwHoleDepth = 2;
     translate([20,6.5,0]) {
         #cylinder(d=8, h= bodyHeight - screwHoleDepth);
         #cylinder(d=4.5, h= bodyHeight + 0.1);
@@ -132,7 +137,13 @@ module pcbPinsCutouts() {
     // Remove space for the display pins to protrude through
     // blocks.
     
-    translate([0, 0, bodyHeight-3]) {
+    // 3mm In.
+    translate([0, 0, bodyHeight-2]) {
+        #cube([6,blockWidth,2]);
+    }
+    
+    // 84mm In.
+    translate([81, 0, bodyHeight-3]) {
         #cube([6,blockWidth,3]);
     }
     
@@ -148,22 +159,27 @@ module pcbPinsCutouts() {
     
 difference() {
     union() {
-        // rails for the tape to run through
-        //addRails();
-        
         // Main block body.
-        translate([0,0,0]) {
-            cube([length, blockWidth, bodyHeight]);
-        }
+        cube([length, blockWidth, bodyHeight]);
     }
     union() {
         cutoutTapePath();
-        
-        mountingHole();
-        lightSensorHole();
-        
-        pcbMountingHoles();
-        
-        pcbPinsCutouts();
+
+        // Repeat the cutouts for as many 
+        // repeats of the block width we are making
+        // For tape wider than 10mm we need a double
+        // or bigger block width whilst keeping the same
+        // holes.
+        for (i=[0,0]) {
+            repYOffset = i * 13;
+            translate([0,repYOffset,0]) {
+                mountingHole();
+                lightSensorHole();
+                
+                pcbMountingHoles();
+                
+                pcbPinsCutouts();
+            }
+        }
     }
 }
