@@ -9,7 +9,12 @@ backerWidth = 1.5; // Was 2.
 // 12mm tape + backer = 13.5 >> block width
 
 // How wide the thing is.
-blockWidth = 13-0.1;
+//blockWidth = 13-0.1;
+blockWidth = 13;
+// How much to remove off the block width to allow
+// for printer tollerance so that each block
+// fits in the 13mm grid.
+blockPrinterTollerance = 0.1;
 
 // How much space to allow for the tape.
 tapeWidth = 8.5;
@@ -19,4 +24,5 @@ tapeWidth = 8.5;
 // 11mm in the original
 // 70mm for the 
 //blockXOffset = 70;
+// PCB is 86mm long.
 blockXOffset = 87;
