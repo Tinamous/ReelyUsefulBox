@@ -1,7 +1,7 @@
-Rely Useful Box - SMD Reel storage and dispenser.
+Reely Useful Box - SMD Reel storage and dispenser.
 ==================================================
 
-SMD reel storage and dispenser based on a 19XL Really Useful Storage Box.
+SMD reel storage and dispenser based on a Really Useful Storage Box.
 
 ![Part build dispenser](/Images/DispenserX4.jpg)
 
