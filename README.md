@@ -3,7 +3,7 @@ Reely Useful Box - SMD Reel storage and dispenser.
 
 SMD reel storage and dispenser based on a Really Useful Storage Box.
 
-![Part build dispenser](/Images/DispenserX4.jpg)
+![Part built dispenser](/Images/DispenserX4.jpg)
 
 Each reel is held and dispensed individually.
 The box will hold 25 individual reels (assuming standard 8mm tape for resistors/capacitors).
