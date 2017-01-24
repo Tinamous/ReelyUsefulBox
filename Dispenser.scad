@@ -21,18 +21,15 @@ $fn = 100;
 
 include <Common.scad>;
 
-
 // gap for the film to wrap back around
 smtTapeTopGap = 1; 
-// How far from the edige the hole in the tap is.
-tapeHoleOffset = 1.5; // mm
+
 // How big or small of a hole to make for the light to come through
 // This is printed on its side so allow for printer filament to run in.
 tapeHoleSize = 2; // mm - hole side to use for the tape hole light.
+
 // How far before the main block the hole for tape sensing should be.
 tapeHoleOffsetFromBlock = 3;
-
-
 
 // The position of the LED. This is fixed.
 //ledHoleX = blockXOffset - tapeHoleOffsetFromBlock;
@@ -43,8 +40,13 @@ ledHoleX = 70 - tapeHoleOffsetFromBlock;
 // 40 extra to bring the tape neear the front of the box. then
 // add a hump to make it easy to pick the tape.
 baseLength = 70 + 60 +20 + 40;
+
 baseHeight = 5;
 echo ("baseLength", baseLength);
+
+// The actual width of the block to be printed.
+// blockWidth with a small tollerance.
+echo("blockWidth",blockWidth);
 
 // Nice long length so the Dymo label tape
 // fits on reasonably well.
@@ -166,16 +168,19 @@ echo ("blockXOffset", blockXOffset);
                 }
             }
             union() {
-                translate([tapeTopBlockLength,blockWidth +0.1, 10/2 ]) {
+                translate([tapeTopBlockLength,(blockWidth) +0.1, 10/2 ]) {
                     rotate([90,0,0]) {
                         // Pin hole.
-                        cylinder(d=4.5, h=blockWidth + 0.2, $fn=100);
+                        #cylinder(d=4.5, h=blockWidth + 0.2, $fn=100);
                     }
                 }
                 
                 // Create a hole in the back to allow the tape counter to be screwed on
                 // M3 insert 
-                translate([-0.1, 4, 10/2 ]) {
+                // Insert should be 9mm from fixed edge.
+                // this is referenced from the other edge.
+                insertPosition = blockWidth - 9;
+                translate([-0.1, insertPosition, 10/2 ]) {
                     rotate([0,90,0]) {
                         // Component counter mount hole
                         cylinder(d=4.2, h=10, $fn=50);
@@ -184,7 +189,7 @@ echo ("blockXOffset", blockXOffset);
                 
                 // Make a nice rounded transition for the film to follow.
                 rotate([-90,0,0]) {
-                    translate([3 + 2.5,-12.50,-backerWidth]) {
+                    translate([3 + 2.5,-12.50,- backerWidth]) {
                         cylinder(d=5, h=blockWidth);
                     }
                 }
@@ -202,14 +207,14 @@ module topBlock() {
                 cylinder(d=5, h=blockWidth);
             }
         }
-        cube([tapeTopBlockLength - (3 + smtTapeTopGap + 2.5), blockWidth, 5]);
+        cube([tapeTopBlockLength - (3 + smtTapeTopGap +2.5), blockWidth, 5]);
     }
 }
 
 module blockBacker() {
 
     // backer to hold it all in place.
-    translate([blockXOffset,blockWidth-backerWidth, 0]) {
+    translate([blockXOffset,(blockWidth)-backerWidth, 0]) {
         cube([tapeTopBlockLength-5, backerWidth, baseHeight + smdTapeGap + 10 + smtTapeTopGap + 5]);
     }
 }
@@ -217,7 +222,7 @@ module blockBacker() {
 // main body
 difference() {
     union() {
-        cube([baseLength, blockWidth - blockPrinterTollerance, baseHeight]);
+        cube([baseLength, blockWidth, baseHeight]);
         //addMarker();
         
         // NOW - ramp up to get the tape past the box edge.
@@ -245,5 +250,8 @@ difference() {
             }
         }
         
+        // Shave off the blockPrinterTollerance from the furthest
+        // side from the reel tape holes.
+        #cube([baseLength,blockPrinterTollerance,5 + smdTapeGap + 10 + smtTapeTopGap + 10]);
     }
 }
