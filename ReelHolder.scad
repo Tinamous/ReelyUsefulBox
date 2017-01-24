@@ -3,7 +3,7 @@ $fn=100;
 include <Common.scad>;
 
 supportLength = 190; // baseLength = 70 + 60 +20 + 40;
-supportWidth = blockWidth - blockPrinterTollerance; //13 - 0.1; // To match block width used in the dispenser.
+supportWidth = blockWidth; // To match block width used in the dispenser.
 supportHeight = 10;
 
 
@@ -17,9 +17,8 @@ reelTubeDiameter = 12.6;
 
 ledHoleX = 67; 
 // 2mm offset because of support wall.
-tapeWallWidth = 2;
-// 1.5mm offset because that's the offset on the tape.
-tapeHoleOffset = 1.5; // mm
+tapeWallWidth = backerWidth;
+
 
 module screwHole(xPosition, nutDepth) {
 echo ("nutDepth", nutDepth);
@@ -112,6 +111,7 @@ smallerMatingDiameter = 8;
 // 0.2 on UM2+ left a very tight fit.
 cyinderMatingTollerance = 0.4;
 
+/*
 module arm() {
     difference() {
         union() {
@@ -171,47 +171,36 @@ module arm() {
         }
 }
 }
+*/
 
+/*
 module showReel() {
-    
-    
-        translate([armLength/2, 0, armHeight]) {
-            rotate([-90,0,0]) {                
-                color("green") {
-                    difference() {
-                        cylinder(d=180, h=10);
-                        cylinder(d=13, h=10.1);
-                    }
+       
+    translate([armLength/2, 0, armHeight]) {
+        rotate([-90,0,0]) {                
+            color("green") {
+                difference() {
+                    cylinder(d=180, h=10);
+                    cylinder(d=13, h=10.1);
                 }
             }
-        }
-}
-
-    // Main arm and roll cut out support.
-    difference() {
-        union() {
-            // Print these seperatly
-            base();
-            
-            translate([(supportLength - armLength)/2, 0, 12]) {
-                rotate([0,00]) {
-                    //arm();
-                
-                    //showReel();
-                }
-                
-                /*
-                translate([0,-15,0]) {
-                    showReel();
-                }
-                
-                translate([0,15,0]) {
-                    showReel();
-                }
-                */
-            }
-        }
-        union() {
-
         }
     }
+}
+*/
+
+
+difference() {
+    union() {
+        // Print these seperatly
+        base();
+    }
+    union() {
+        // Shave off the blockPrinterTollerance from the furthest
+        // side from the reel tape holes.
+        // + 20 for the cylinder holding the arms
+        translate([0,blockWidth - blockPrinterTollerance,0]) {
+            #cube([supportLength,blockPrinterTollerance,supportHeight + 20]);
+        }
+    }
+}
