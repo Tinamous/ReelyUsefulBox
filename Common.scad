@@ -23,7 +23,7 @@ blockWidth = 13;
 // Set to 1.5 + 1.75 (3.25) to test (3mm offset) for LED for arm
 // Set to 4 to test horizontal coupler.
 // Set to 0.25 for normal printing.
-blockPrinterTollerance = 0.25; //0.25;
+blockPrinterTollerance = 0.15; //0.25;
 
 // How much space to allow for the tape.
 // Actually 8mm but add 0.5 to allow it to move easily

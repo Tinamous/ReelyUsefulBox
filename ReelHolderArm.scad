@@ -14,7 +14,7 @@ smallerMatingDiameter = 8;
 
 // How mech space to leave between the inner and outer cylinder.
 // 0.2 on UM2+ left a very tight fit.
-cyinderMatingTollerance = 0.3;
+cylinderMatingTollerance = 0.4;
 
 module arm() {
     difference() {
@@ -38,7 +38,7 @@ module arm() {
                         }
                     }
                     union() {
-                        cylinder(d=smallerMatingDiameter + cyinderMatingTollerance, h=supportWidth-armWidth);
+                        cylinder(d=smallerMatingDiameter + cylinderMatingTollerance, h=supportWidth-armWidth);
                     }
                 }
             }
