@@ -164,20 +164,23 @@ module screwHoles() {
 
 
 module ledCounterHole() {
-    // Move to the far edge
-    // Then move in by xmm for the tape hole position
-echo("Led Hole X", ledHoleX);
-ledHoleY = actualWidth - (tapeHoleOffset + backerWidth);
-echo("Led Hole Y", ledHoleY);
     
-    translate([ledHoleX,ledHoleY, -0.1]) {
-        cylinder(d=1.5, h=baseHeight+0.2);
-                    
-        // Hollow out xmm (3) for a 3mm LED to be inserted
-        // Expect this will be glued or on a PCB
-        // so allow a tollerance.
-        cylinder(d=3, h=baseHeight-1.5);
+    for(rep =  [1 : numberOfBlocksWide]) {
+        // Move to the far edge
+        // Then move in by xmm for the tape hole position
+        echo("Led Hole X", ledHoleX);
+        ledHoleY = (blockWidth * rep) - (tapeHoleOffset + backerWidth);
+        echo("Led Hole Y", ledHoleY);
         
+        translate([ledHoleX,ledHoleY, -0.1]) {
+            cylinder(d=1.5, h=baseHeight+0.2);
+                        
+            // Hollow out xmm (3) for a 3mm LED to be inserted
+            // Expect this will be glued or on a PCB
+            // so allow a tollerance.
+            cylinder(d=3, h=baseHeight-1.5);
+            
+        }
     }
 }
 
