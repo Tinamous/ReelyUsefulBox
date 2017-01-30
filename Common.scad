@@ -23,7 +23,7 @@ blockWidth = 13;
 // Mounting holes will be duplicated but 
 // LED hole not.
 // Be sure to set tapeWidth correctly for the wide tape.
-numberOfBlocksWide = 4;
+numberOfBlocksWide = 1;
 
 // How much to remove off the block width to allow
 // for printer tollerance so that each block
