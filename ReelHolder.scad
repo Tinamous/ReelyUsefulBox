@@ -50,11 +50,13 @@ module screwHoles() {
 
 module ledHole() {
     
-    ledHoleY = tapeWallWidth + tapeHoleOffset;
-    echo ("ledHoldY", ledHoleY);
-    
-    translate([ledHoleX, ledHoleY, 0]) {
-        #cylinder(d=5, h=11);
+    for (rep = [0 : numberOfBlocksWide -1]) {
+        ledHoleY = tapeWallWidth + tapeHoleOffset + (rep * blockWidth);
+        echo ("ledHoldY", ledHoleY);
+        
+        translate([ledHoleX, ledHoleY, -1]) {
+            cylinder(d=5, h=12);
+        }
     }
 }
 
@@ -71,7 +73,7 @@ tapeCutoutWidth = supportWidth - 3;
             union() {
                 translate([tapeCutoutLength, 0, tapeCutoutDepth/2]) {
                     rotate([-90,0,0]) {
-                        #cylinder(d=tapeCutoutDepth, h=tapeCutoutWidth);
+                        cylinder(d=tapeCutoutDepth, h=tapeCutoutWidth);
                     }
                 }
             
