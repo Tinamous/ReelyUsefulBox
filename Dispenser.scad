@@ -62,9 +62,10 @@ tapeTopBlockLength = 40;
 module enteranceMarker() {
 // How thick the plastic lid is on the box.
 lidPlasticThickness = 3;
+// was 20, but with curve it's now 25
 tapeEntrySquareLength = 25; // from reel holder
     // Reel holder hole is 14.5mm in.
-    translate([15, 0,-lidPlasticThickness]) {
+    translate([15 - 2, 0,-lidPlasticThickness]) {
         // Make a 1.5mm border
         difference() {
             union() {
@@ -77,13 +78,16 @@ tapeEntrySquareLength = 25; // from reel holder
             }
         }
     }
-    
-    
+   
+}
+
+module enteranceCurve() {
     // Add on the cylinder for the tape to roll over.
     // Use a 1/4 pie shape.
     difference() {
         union() {
-            translate([40 + 7, 0, 0]) {
+            // 15mm start + 25mm hole l
+            translate([40 + 5, 0, 0]) {
                 rotate([-90,0,0]) {
                     cylinder(r=baseHeight, h=actualWidth  - backerWidth);
                 }
@@ -91,7 +95,7 @@ tapeEntrySquareLength = 25; // from reel holder
         }
         union() {
             // Slice off the bottom half of the cylinder
-            translate([39 + 9.5 - baseHeight, 0, -baseHeight]) {
+            translate([40 + 5 - baseHeight, 0, -baseHeight]) {
                 cube([baseHeight*2, actualWidth  - backerWidth, baseHeight]);
             }
         }
@@ -99,7 +103,7 @@ tapeEntrySquareLength = 25; // from reel holder
 }
 
 module enteranceCutout() {
-    translate([39, -0.01, 0]) {
+    translate([37, -0.01, 0]) {
         #cube([8,actualWidth  - backerWidth,baseHeight+0.01]);
     }
     
@@ -314,4 +318,5 @@ difference() {
     }
 }
 
-enteranceMarker();
+enteranceCurve();
+//enteranceMarker();
