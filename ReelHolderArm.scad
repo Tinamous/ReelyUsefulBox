@@ -1,6 +1,9 @@
 $fn=100;
 
-supportWidth = 13 - 0.25; // To match block width used in the dispenser.
+
+include <Common.scad>;
+
+supportWidth = (blockWidth * numberOfBlocksWide) - 0.25; // To match block width used in the dispenser.
 
 // X Axis length
 armLength = 20;
@@ -56,11 +59,15 @@ module arm() {
                 
                 // Smaller inner mating pin
                 // with hole for M3 brass inser
-                difference() {
-                    translate([0,0,armWidth]) { 
-                        cylinder(d=smallerMatingDiameter + 0.2, h=supportWidth-armWidth);
+                // Keep this short to reduce the maiting surface
+                // area when connected to the fatter cylidner
+                // otherwise it's difficult to seperate
+                smallCylinderHeight = (blockWidth - armWidth);
+                translate([0,0,supportWidth - smallCylinderHeight]) { 
+                    difference() {
+                        cylinder(d=smallerMatingDiameter + 0.2, h=smallCylinderHeight);
+                        #cylinder(d=4.3, h=smallCylinderHeight );
                     }
-                    cylinder(d=4.3, h=supportWidth);
                     
                 }
             }
