@@ -40,24 +40,75 @@ ledHoleX = 70 - tapeHoleOffsetFromBlock;
 // 40 extra to bring the tape neear the front of the box. then
 // add a hump to make it easy to pick the tape.
 baseLength = 70 + 60 +20 + 40;
+echo ("baseLength", baseLength);
 
 baseHeight = 5;
-echo ("baseLength", baseLength);
+echo ("baseHeight", baseHeight);
+
 
 // The actual width of the block to be printed.
 // blockWidth with a small tollerance.
 echo("blockWidth",blockWidth);
 
+actualWidth = blockWidth * numberOfBlocksWide;
+echo("actualWidth",actualWidth);
+
 // Nice long length so the Dymo label tape
 // fits on reasonably well.
 tapeTopBlockLength = 40;
 
+// Add a marker (or cover around the enterance hole to meet
+// the reel holder
+module enteranceMarker() {
+// How thick the plastic lid is on the box.
+lidPlasticThickness = 3;
+tapeEntrySquareLength = 25; // from reel holder
+    // Reel holder hole is 14.5mm in.
+    translate([15, 0,-lidPlasticThickness]) {
+        // Make a 1.5mm border
+        difference() {
+            union() {
+                cube([tapeEntrySquareLength+2+2,actualWidth ,lidPlasticThickness]);
+            }
+            union() {
+                translate([2, 0, 0]) {
+                    #cube([tapeEntrySquareLength, actualWidth  - backerWidth,lidPlasticThickness]);
+                }
+            }
+        }
+    }
+    
+    
+    // Add on the cylinder for the tape to roll over.
+    // Use a 1/4 pie shape.
+    difference() {
+        union() {
+            translate([40 + 7, 0, 0]) {
+                rotate([-90,0,0]) {
+                    cylinder(r=baseHeight, h=actualWidth  - backerWidth);
+                }
+            }
+        }
+        union() {
+            // Slice off the bottom half of the cylinder
+            translate([39 + 9.5 - baseHeight, 0, -baseHeight]) {
+                cube([baseHeight*2, actualWidth  - backerWidth, baseHeight]);
+            }
+        }
+    }
+}
+
 module enteranceCutout() {
-    translate([0,0,0]) {
+    translate([39, -0.01, 0]) {
+        #cube([8,actualWidth  - backerWidth,baseHeight+0.01]);
+    }
+    
+    
+    translate([19,-0.01,-6]) {
         rotate([0,-14,0]) {
-            translate([-10,0,-8]) {
-                translate([10,0 , 0]) {
-                    cube([65,blockWidth  - backerWidth,3]);
+            translate([0,0,0]) {
+                translate([0,0 , 0]) {
+                    cube([25,actualWidth  - backerWidth,6]);
                 }
             }
         }
@@ -71,7 +122,7 @@ module exitRamp() {
     translate([163,0,-5]) {
         rotate([0,-7,0]) {
             translate([0,0,5]) {
-                cube([28,blockWidth,5]);
+                cube([28,actualWidth,5]);
             }
         }
     }
@@ -112,11 +163,11 @@ module ledCounterHole() {
     // Move to the far edge
     // Then move in by xmm for the tape hole position
 echo("Led Hole X", ledHoleX);
-ledHoleY = blockWidth - (tapeHoleOffset + backerWidth);
+ledHoleY = actualWidth - (tapeHoleOffset + backerWidth);
 echo("Led Hole Y", ledHoleY);
     
     translate([ledHoleX,ledHoleY, -0.1]) {
-        #cylinder(d=1.5, h=baseHeight+0.2);
+        cylinder(d=1.5, h=baseHeight+0.2);
                     
         // Hollow out xmm (3) for a 3mm LED to be inserted
         // Expect this will be glued or on a PCB
@@ -128,7 +179,7 @@ echo("Led Hole Y", ledHoleY);
 
 // create little markers down one edge to indicate 10 components.
 module addMarker() {
-    translate([blockXOffset + 28 ,blockWidth-backerWidth, 0]) {
+    translate([blockXOffset + 28 ,actualWidth-backerWidth, 0]) {
         cube([40, backerWidth, baseHeight + 2 ]);
     }
 }
@@ -142,11 +193,11 @@ echo ("blockXOffset", blockXOffset);
         difference() {
             union() {
                 // Block right on top of the tape.
-                cube([tapeTopBlockLength, blockWidth, 10]);
-                translate([tapeTopBlockLength,blockWidth, 10/2 ]) {
+                cube([tapeTopBlockLength, actualWidth, 10]);
+                translate([tapeTopBlockLength,actualWidth, 10/2 ]) {
                     rotate([90,0,0]) {
-                        cylinder(d=10, h=blockWidth);
-                        translate([0, 0, blockWidth]) {
+                        cylinder(d=10, h=actualWidth);
+                        translate([0, 0, actualWidth]) {
                             // Pin
                             // // Drop this as it makes 
                             // changing these blocks difficult and 
@@ -157,21 +208,21 @@ echo ("blockXOffset", blockXOffset);
                 }
                 
                 // Raised back to push the film upwards. 
-                cube([5.5, blockWidth, 12.50]);
-                cube([3, blockWidth, 17.5]);
+                cube([5.5, actualWidth, 12.50]);
+                cube([3, actualWidth, 17.5]);
                 // Curved top
                 translate([1.5, 0, 17.5]) {
                     rotate([-90,0,0]) {
                             // Pin hole.
-                        cylinder(d=3, h=blockWidth, $fn=100);
+                        cylinder(d=3, h=actualWidth, $fn=100);
                     }
                 }
             }
             union() {
-                translate([tapeTopBlockLength,(blockWidth) +0.1, 10/2 ]) {
+                translate([tapeTopBlockLength,(actualWidth) +0.1, 10/2 ]) {
                     rotate([90,0,0]) {
                         // Pin hole.
-                        #cylinder(d=4.5, h=blockWidth + 0.2, $fn=100);
+                        cylinder(d=4.5, h=actualWidth + 0.2, $fn=100);
                     }
                 }
                 
@@ -179,18 +230,25 @@ echo ("blockXOffset", blockXOffset);
                 // M3 insert 
                 // Insert should be 9mm from fixed edge.
                 // this is referenced from the other edge.
-                insertPosition = blockWidth - 9;
-                translate([-0.1, insertPosition, 10/2 ]) {
-                    rotate([0,90,0]) {
-                        // Component counter mount hole
-                        cylinder(d=4.2, h=10, $fn=50);
+                // repeated for each of the blocks so that
+                // a multi-pin counter can be used.
+                for(rep =  [1 : numberOfBlocksWide]) {
+                    insertPosition = (blockWidth * rep) - 9;
+                    // Z is relative to the tape gap
+                    // however hole needs to be at fixed point.
+                    // 7mm up from the top of the dispenser
+                    translate([-0.1, insertPosition, 7 - smdTapeGap]) {
+                        rotate([0,90,0]) {
+                            // Component counter mount hole
+                            #cylinder(d=4.2, h=10, $fn=50);
+                        }
                     }
                 }
                 
                 // Make a nice rounded transition for the film to follow.
                 rotate([-90,0,0]) {
                     translate([3 + 2.5,-12.50,- backerWidth]) {
-                        cylinder(d=5, h=blockWidth);
+                        cylinder(d=5, h=actualWidth);
                     }
                 }
             }
@@ -204,17 +262,17 @@ module topBlock() {
     translate([blockXOffset + 3 + smtTapeTopGap + 2.5,0, 5 + smdTapeGap + 10 + smtTapeTopGap]) {
         rotate([-90,0,0]) {
             translate([0,-2.50,0]) {
-                cylinder(d=5, h=blockWidth);
+                cylinder(d=5, h=actualWidth);
             }
         }
-        cube([tapeTopBlockLength - (3 + smtTapeTopGap +2.5), blockWidth, 5]);
+        cube([tapeTopBlockLength - (3 + smtTapeTopGap +2.5), actualWidth, 5]);
     }
 }
 
 module blockBacker() {
 
     // backer to hold it all in place.
-    translate([blockXOffset,(blockWidth)-backerWidth, 0]) {
+    translate([blockXOffset,(actualWidth)-backerWidth, 0]) {
         cube([tapeTopBlockLength-5, backerWidth, baseHeight + smdTapeGap + 10 + smtTapeTopGap + 5]);
     }
 }
@@ -222,7 +280,7 @@ module blockBacker() {
 // main body
 difference() {
     union() {
-        cube([baseLength, blockWidth, baseHeight]);
+        cube([baseLength, actualWidth, baseHeight]);
         //addMarker();
         
         // NOW - ramp up to get the tape past the box edge.
@@ -242,16 +300,18 @@ difference() {
         // Add a hole for light to shine through to allow counting.
         ledCounterHole();
         
-        for(repYOffset =  [0 : 13 : blockWidth-1]) {
+        for(repYOffset =  [0 : 13 : actualWidth-1]) {
             //repYOffset = i * 13;
             translate([0,repYOffset,0]) {
                 // Screw holes
-                #screwHoles();
+                screwHoles();
             }
         }
         
         // Shave off the blockPrinterTollerance from the furthest
         // side from the reel tape holes.
-        #cube([baseLength,blockPrinterTollerance,5 + smdTapeGap + 10 + smtTapeTopGap + 10]);
+        cube([baseLength,blockPrinterTollerance,5 + smdTapeGap + 10 + smtTapeTopGap + 10]);
     }
 }
+
+enteranceMarker();
