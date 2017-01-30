@@ -3,7 +3,7 @@ $fn=100;
 include <Common.scad>;
 
 supportLength = 190; // baseLength = 70 + 60 +20 + 40;
-supportWidth = blockWidth; // To match block width used in the dispenser.
+supportWidth = blockWidth * numberOfBlocksWide; // To match block width used in the dispenser.
 supportHeight = 10;
 
 
@@ -34,6 +34,20 @@ echo ("nutDepth", nutDepth);
     }
 }
 
+module screwHoles() {
+    for (rep = [1 : numberOfBlocksWide]) {
+        //repYOffset = i * 13;
+        translate([0,blockWidth * (rep -1),0]) {
+            
+            // Holes to mount it - try and match that of the dispenser
+            screwHole(10, supportHeight -3);
+            screwHole(60, 2.5);
+            screwHole(110, 2.5);
+            screwHole(160, 2.5);
+        }
+    }
+}
+
 module ledHole() {
     
     ledHoleY = tapeWallWidth + tapeHoleOffset;
@@ -45,12 +59,26 @@ module ledHole() {
 }
 
 module tapeEnterance(blockNumber) {
+tapeCutoutLength = 25;    
+tapeCutoutDepth = supportHeight;
+tapeCutoutWidth = supportWidth - 3;
     
-    translate([1.5 + supportWidth, 1.5, 0]) {
-        #cube([20,supportWidth - 3, 11]);
+    translate([14.5, backerWidth, 0]) {
+        difference() {
+            union() {
+                cube([tapeCutoutLength,tapeCutoutWidth, tapeCutoutDepth + 0.1]);
+            }
+            union() {
+                translate([tapeCutoutLength, 0, tapeCutoutDepth/2]) {
+                    rotate([-90,0,0]) {
+                        #cylinder(d=tapeCutoutDepth, h=tapeCutoutWidth);
+                    }
+                }
+            
+            }
+        }
     }
 }
-
 
 module base() {
     difference() {
@@ -64,14 +92,9 @@ module base() {
                     }
                 }
             }
-        
         } 
         union() {
-            // Holes to mount it - try and match that of the dispenser
-            screwHole(10, supportHeight -3);
-            screwHole(60, 2.5);
-            screwHole(110, 2.5);
-            screwHole(160, 2.5);
+            screwHoles();
             
             // Hole for the arm thingy.
             translate([(supportLength - armLength)/2, 0, 12]) {
@@ -106,100 +129,17 @@ module base() {
     }
 }
 
-smallerMatingDiameter = 8;
-// How mech space to leave between the inner and outer cylinder.
-// 0.2 on UM2+ left a very tight fit.
-cyinderMatingTollerance = 0.4;
-
-/*
-module arm() {
-    difference() {
-        union() {
-        // Fat outer cylinger.
-        translate([armLength/2, 0, 0]) {
-            rotate([-90,0,0]) {
-                translate([0, 0, supportWidth-2]) {
-                    // Create the large outside curved edge.
-                    // cut hole in for contersinking M3 screw
-                        cylinder(d=armLength, h=armWidth);
-                }
-                
-                // Create a large pin then subtract a small pin
-                // + tollerance to allow two ends to mate
-                // to hold in place.
-                difference() {
-                    union() {
-                        translate([0,0,armWidth]) {
-                            cylinder(d=reelTubeDiameter, h=supportWidth-armWidth);
-                        }
-                    }
-                    union() {
-                        cylinder(d=smallerMatingDiameter + cyinderMatingTollerance, h=supportWidth-armWidth);
-                    }
-                }
-            }
-        }
-        
-        translate([0,supportWidth-2,0]) {
-            cube([armLength, armWidth, armHeight]) ;
-        }
-        
-        translate([armLength/2, 0, armHeight]) {
-            rotate([-90,0,0]) {
-                translate([0, 0, supportWidth-2]) {
-                    cylinder(d=armLength, h=armWidth);
-                }
-                
-                // Smaller inner mating pin
-                // with hole for M3 brass inser
-                difference() {
-                    translate([0,0,armWidth]) { 
-                        cylinder(d=smallerMatingDiameter + 0.2, h=supportWidth-armWidth);
-                    }
-                    cylinder(d=4.3, h=supportWidth);
-                    
-                }
-            }
-        }
-    }
-    union() {
-        translate([armLength/2, supportWidth+0.5,0]) {
-            rotate([90,0,0]) 
-                // Countersink hole at top
-                #cylinder(d1=6, d2=3.4, h=armWidth+1);
-            }
-        }
-}
-}
-*/
-
-/*
-module showReel() {
-       
-    translate([armLength/2, 0, armHeight]) {
-        rotate([-90,0,0]) {                
-            color("green") {
-                difference() {
-                    cylinder(d=180, h=10);
-                    cylinder(d=13, h=10.1);
-                }
-            }
-        }
-    }
-}
-*/
 
 
 difference() {
     union() {
-        // Print these seperatly
         base();
     }
     union() {
         // Shave off the blockPrinterTollerance from the furthest
         // side from the reel tape holes.
         // + 20 for the cylinder holding the arms
-        translate([0,blockWidth - blockPrinterTollerance,0]) {
+        translate([0,supportWidth - blockPrinterTollerance,0]) {
             #cube([supportLength,blockPrinterTollerance,supportHeight + 20]);
         }
     }
