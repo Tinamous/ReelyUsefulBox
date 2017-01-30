@@ -24,6 +24,7 @@ echo("bodyHeight",bodyHeight);
 length = blockXOffset - 1; //86; // Or 85?
 
 echo("blockWidth",blockWidth);
+actualWidth = blockWidth * numberOfBlocksWide;
 
 // This is 0.5mm less than the main dispenser so that
 // the tape doesn't hit as it enters the dispenser.
@@ -32,6 +33,11 @@ tapeGap = smdTapeGap +1; // - 0.5;
 usePinMount = true;
 
 
+// Tape Width MUST be set appropriatly
+// for numberOfBlocksWide>1 it is assumed this is for
+// wide tape and not just to make n blocks in one go.
+// Hence tapeWidth must be set for the tap to ensure
+// the tape is guided properly.
 module cutoutTapePath() {
     // Fattest part is on the right y=0)
     translate([-0.1,blockWidth - (backerWidth + tapeWidth),-0.1]) {
@@ -42,14 +48,31 @@ echo ("blockWidth=",blockWidth);
 echo ("backerWidth=",backerWidth);
 echo ("tapeWidth=",tapeWidth);
 echo ("Left offset=",blockWidth - (backerWidth + tapeWidth));
+    
     // Put a very slight angle on the block so that the tape comes out
     // at a lower height than would be expected for the smdTapeGap
     // in the dispenser block - so it shouldn't get stuck when feeding through.
-    translate([-0.1,blockWidth - (backerWidth + tapeWidth),0]) {
+    translate([-0.1,actualWidth - (backerWidth + tapeWidth),0]) {
         rotate([0,1,0]) {
-            cube([length+0.1, tapeWidth, tapeGap]);
+            #cube([length+0.1, tapeWidth, tapeGap]);
         }
         //translate([0,blockWidth - backerWidth ,0]) {
+    }
+}
+
+module cutoutMultiTapePath() {
+    // Put a very slight angle on the block so that the tape comes out
+    // at a lower height than would be expected for the smdTapeGap
+    // in the dispenser block - so it shouldn't get stuck when feeding through.
+    
+    for (rep = [1 : numberOfBlocksWide]) {
+        width = blockWidth * rep;
+        translate([-0.1,width - (backerWidth + tapeWidth),0]) {
+            rotate([0,1,0]) {
+                #cube([length+0.1, tapeWidth, tapeGap]);
+            }
+            //translate([0,blockWidth - backerWidth ,0]) {
+        }
     }
 }
 
@@ -71,6 +94,7 @@ module addRails() {
 // dispenser block.
 module mountingPoint() {
     
+        // No repetition for multiblocks.
         translate([length - 0.1, 4, 10/2 + smdTapeGap]) {
             rotate([0,90,0]) {
                 // Component counter mount hole
@@ -107,14 +131,14 @@ module mountingHole() {
     if (!usePinMount) {
         horizontalMountingHole();
     }
-        
+    
     // All vertical holes are on a 13mm pitch
     // so 6.5 from edge.
     // Dispenser first hole is 10mm in.
     translate([10, 6.5, 0]) {
        cylinder(d=4.2, h=bodyHeight);
     }
-    
+
     // Add a cutout for the screw head.
     // Sink it right in otherwise we need a long screw.
     // as it has to go through the 5mm of the dispenser
@@ -161,6 +185,7 @@ screwHoleDepth = 4;
 // So move the mounting hole so that the distance between the LED hole
 // and the mouting hole are the same.
 pcbLedOffsetFudge = 0.25;
+        
     translate([20,6.5 - pcbLedOffsetFudge,0]) {
         //#cylinder(d=8, h= bodyHeight - screwHoleDepth);
         // 6.5 is a little tight for the nut.
@@ -201,30 +226,47 @@ module pcbPinsCutouts() {
     }
 }
 
-
-    
-
 difference() {
     union() {
         // Main block body.
-        cube([length, blockWidth, bodyHeight]);
+        cube([length, actualWidth, bodyHeight]);
         
         if (usePinMount) {
-            mountingPoint();
+            
+            if (repeatTape) {
+                // repeat pins might cause problems for tollerance.
+                for (rep = [0 : numberOfBlocksWide -1]) {    
+                    repYOffset = rep * 13;
+                    translate([0,repYOffset,0]) {
+                        mountingPoint();
+                    }
+                }
+            } else {
+                mountingPoint();
+            }
         }
     }
     union() {
-        cutoutTapePath();
+        if (repeatTape) {
+            cutoutMultiTapePath();
+        } else {
+            cutoutTapePath();
+        }
+        
 
         // Repeat the cutouts for as many 
         // repeats of the block width we are making
         // For tape wider than 10mm we need a double
         // or bigger block width whilst keeping the same
         // holes.
-        for (i=[0,0]) {
-            repYOffset = i * 13;
+        for (rep = [0 : numberOfBlocksWide -1]) {    
+            repYOffset = rep * 13;
             translate([0,repYOffset,0]) {
                 mountingHole();
+                
+                // Always repeat light sensor as the 
+                // PCB may have the sensor fitted and would 
+                // need the hold.
                 lightSensorHole();
                 
                 pcbMountingHoles();
