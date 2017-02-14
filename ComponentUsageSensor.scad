@@ -2,9 +2,6 @@ $fn = 100;
 
 include <Common.scad>;
 
-// gap for the film to wrap back around
-smtTapeTopGap = 1; 
-
 // How big or small of a hole to make for the light to come through
 // This is printed on its side so allow for printer filament to run in.
 tapeHoleSize = 2; // mm - hole side to use for the tape hole light.
@@ -14,7 +11,7 @@ tapeHoleOffsetFromBlock = 3;
 
 // This should match the roll over block height
 // excludes the tape gap.
-bodyHeight = 16 - smdTapeGap; // Was 18.
+bodyHeight = 14;
 echo("bodyHeight",bodyHeight);
 
 // How long on the x axis this is.
@@ -75,27 +72,14 @@ module cutoutMultiTapePath() {
         }
     }
 }
-
-// Not used now.
-module addRails() {
-    translate([0,0,0]) {
-        
-        cube([length, blockWidth - (backerWidth + tapeWidth), tapeGap]);
-
-        translate([0,blockWidth - backerWidth ,0]) {
-            
-            
-            cube([length, backerWidth, tapeGap]);
-        }
-    }
-}
    
 // Make a sticky out pointy thing for mounting to the 
 // dispenser block.
 module mountingPoint() {
     
         // No repetition for multiblocks.
-        translate([length - 0.1, 4, 10/2 + smdTapeGap]) {
+        // Fixed at 7mm up
+        translate([length - 0.1, 4, 7]) {
             rotate([0,90,0]) {
                 // Component counter mount hole
                 // Hole is 4.2mm

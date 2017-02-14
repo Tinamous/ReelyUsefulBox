@@ -9,7 +9,7 @@ del *.stl
 @echo Building Component Usage Sensor with Pin STLs
 "C:\Program Files\OpenSCAD\openscad.com" -o ComponentUsageSensor-Pin.stl -D "usePinMount=true;numberOfBlocksWide=1" ComponentUsageSensor.scad
 # For LED tape
-"C:\Program Files\OpenSCAD\openscad.com" -o ComponentUsageSensor-Pin-LED.stl -D "usePinMount=true;numberOfBlocksWide=2;tapeWidth=13" ComponentUsageSensor.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o ComponentUsageSensor-Pin-LED.stl -D "usePinMount=true;numberOfBlocksWide=2;tapeWidth=13;smdTapeGap=3;repeatTape=false" ComponentUsageSensor.scad
 # Covers 4 individual 8mm tape (resistor/caps) as opposed to a double wide tape.
 "C:\Program Files\OpenSCAD\openscad.com" -o ComponentUsageSensor-Pin-4Wide-MultiTape.stl -D "usePinMount=true;numberOfBlocksWide=4;repeatTape=true" ComponentUsageSensor.scad
 

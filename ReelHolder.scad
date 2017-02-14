@@ -53,6 +53,7 @@ module ledHole() {
     for (rep = [0 : numberOfBlocksWide -1]) {
         ledHoleY = tapeWallWidth + tapeHoleOffset + (rep * blockWidth);
         echo ("ledHoldY", ledHoleY);
+        echo ("ledHoldX", ledHoleX);
         
         translate([ledHoleX, ledHoleY, -1]) {
             cylinder(d=5, h=12);
