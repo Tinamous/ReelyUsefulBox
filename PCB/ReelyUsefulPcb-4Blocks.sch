@@ -7945,7 +7945,8 @@ Resettable Fuse. Spark Fun Electronics SKU : COM-08357</description>
 <wire x1="144.78" y1="60.96" x2="144.78" y2="2.54" width="0.1524" layer="97"/>
 <wire x1="144.78" y1="2.54" x2="106.68" y2="2.54" width="0.1524" layer="97"/>
 <text x="63.5" y="43.18" size="1.27" layer="97">Hand held detector</text>
-<text x="25.4" y="48.26" size="1.27" layer="91">Diodes need to be reversed</text>
+<text x="25.4" y="48.26" size="1.27" layer="97">Actually photo-transistors (L-93DP3C)
+Short lead (Collector) goes to +ve</text>
 <text x="238.76" y="7.62" size="1.27" layer="97">1.0</text>
 <text x="170.942" y="11.684" size="1.27" layer="97">Stephen Harrison</text>
 <wire x1="246.38" y1="106.68" x2="246.38" y2="182.88" width="0.1524" layer="97"/>
