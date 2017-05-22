@@ -50,7 +50,7 @@ Original inspiration taken from http://www.thingiverse.com/thing:1080195 with mo
 * Of you can just leave the film on if you want to cut of a section of tape.
 * The top block has a hold in the back. Use a M3 heatfit   insert in here if you want to use the component usage sensor block.
 
-## ReelHolder-Top
+## ReelHolder-Top (ReelHolder.scad/ReelHolder.stl)
 
 This sits inside the box to hold the reel arms and is screwed to the lid with the dispenser on the top.
 
@@ -92,3 +92,9 @@ These hold the reel and is mounted in the ReelHolder-Top.
 ** Top/Bottom Thickness: 0.75mm
 * Build Plate Adhesion: Brim
 * Support: None
+
+
+## Electronics
+
+The dispenser is designed to have a LED/PhotoTransistor pair either side of the tape to count the holes in the tape as they pass. See PCB folder for
+instructions on the counter and LED PCB.
