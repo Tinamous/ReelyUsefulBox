@@ -51,7 +51,7 @@ echo ("Left offset=",blockWidth - (backerWidth + tapeWidth));
     // in the dispenser block - so it shouldn't get stuck when feeding through.
     translate([-0.1,actualWidth - (backerWidth + tapeWidth),0]) {
         rotate([0,1,0]) {
-            #cube([length+0.1, tapeWidth, tapeGap]);
+            cube([length+0.1, tapeWidth, tapeGap]);
         }
         //translate([0,blockWidth - backerWidth ,0]) {
     }
@@ -66,7 +66,7 @@ module cutoutMultiTapePath() {
         width = blockWidth * rep;
         translate([-0.1,width - (backerWidth + tapeWidth),0]) {
             rotate([0,1,0]) {
-                #cube([length+0.1, tapeWidth, tapeGap]);
+                cube([length+0.1, tapeWidth, tapeGap]);
             }
             //translate([0,blockWidth - backerWidth ,0]) {
         }
@@ -158,11 +158,17 @@ module lightSensorHole() {
     }
 }
 
+// Holes (well hole) for the PCB to use when mounted on-top
+// NB: Block needs to be fixed to the dispenser system 
+// before the PCB is attached, and the PCB may be 
+// shared between different dispensers.
 module pcbMountingHoles() {
     
-    // Just do the one mounting hole as the LED/diode is already a mounting point.
-    // 
-screwHoleDepth = 4;
+// Just one mounting hole as the LED/diode is already a mounting point.
+
+// How deep in the screw recess should stop 
+screwHoleDepth = 6.5;
+    
 // PCB has LED at 3mm offset
 // however it's actually 3.25 (1.5mm backerWidth wall))
 // or 3.75 if we use a 2mm backerWidth wall
@@ -173,8 +179,22 @@ pcbLedOffsetFudge = 0.25;
     translate([20,6.5 - pcbLedOffsetFudge,0]) {
         //#cylinder(d=8, h= bodyHeight - screwHoleDepth);
         // 6.5 is a little tight for the nut.
-        cylinder(d=6.6, h= bodyHeight - screwHoleDepth, $fn=6);
-        cylinder(d=4.5, h= bodyHeight + 0.1);
+        //cylinder(d=6.6, h= bodyHeight - screwHoleDepth, $fn=6);
+        
+        // Screw head should sit just inside the block above
+        // the tape path
+        //#cylinder(d=6.6, h= screwHoleDepth);
+        // Hole all the way though for the thread.
+        #cylinder(d=4, h= bodyHeight + 1.1);
+        
+        // recess the nut 3.5mm into the part.
+        translate([0,0,bodyHeight-7]) {
+            #cylinder(d=6.6, h= 2.8, $fn=6);
+            
+            translate([-5,-5.7/2,0]) {
+                #cube([5,5.7,2.8]);
+            }
+        }
     }
     
     /*
@@ -186,24 +206,26 @@ pcbLedOffsetFudge = 0.25;
     */
 }
 
-// 
+// Remove space for the display pins to protrude through
+// blocks.
 module pcbPinsCutouts() {
-    
-    // Remove space for the display pins to protrude through
-    // blocks.
-    
-    // 3mm In.
-    translate([0, 0, bodyHeight-2]) {
-        cube([6,blockWidth,2.1]);
+        
+    // 3mm in. (This is the top one).
+    // It also needs to allow for the LED drive
+    // connector which is 12mm down the PCB
+    translate([0, 0, bodyHeight-7]) {
+        cube([16,blockWidth,7.1]);
     }
     
-    // 84mm In.
+    // 84mm in. End nearest the dispenser block
+    // allow for main display pins.
     translate([81, 0, bodyHeight-3]) {
         cube([6,blockWidth,3.1]);
     }
     
-    // Remove space for the OSH LED. This is only needed on the middle 2 
-    // blocks.
+    // Remove space for the OSH LED. 
+    // This is only needed on the middle 2 
+    // blocks but we don't knowh which two they are.
     oshLedXPosition=73; //mm
     translate([oshLedXPosition-2, 0, bodyHeight-2]) {
         cube([4,blockWidth,2.1]);
