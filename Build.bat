@@ -25,4 +25,8 @@ del *.stl
 "C:\Program Files\OpenSCAD\openscad.com" -o ReelHolder.stl -D  "numberOfBlocksWide=1"  ReelHolder.scad
 "C:\Program Files\OpenSCAD\openscad.com" -o ReelHolder-2Wide.stl -D  "numberOfBlocksWide=2" ReelHolder.scad
 
+@echo Building component catcher STLs
+"C:\Program Files\OpenSCAD\openscad.com" -o ComponentCatcher.stl -D  "numberOfBlocksWide=1"  ComponentCatcher.scad
+"C:\Program Files\OpenSCAD\openscad.com" -o ComponentCatcher-2Wide.stl -D  "numberOfBlocksWide=2" ComponentCatcher.scad
+
 # MountingPlate needs svg and editing so ignore
