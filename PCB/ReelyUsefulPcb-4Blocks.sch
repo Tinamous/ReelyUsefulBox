@@ -7888,7 +7888,9 @@ Resettable Fuse. Spark Fun Electronics SKU : COM-08357</description>
 <part name="H4" library="holes" deviceset="MOUNT-HOLE" device="3.2"/>
 <part name="FRAME1" library="SparkFun-Aesthetics" deviceset="FRAME-LETTER" device=""/>
 <part name="LOGO1" library="SparkFun-Aesthetics" deviceset="OSHW-LOGO" device="L"/>
-<part name="D10" library="SparkFun-LED" deviceset="LED" device="1206-BOTTOM"/>
+<part name="D10" library="SparkFun-LED" deviceset="LED" device="1206-BOTTOM" value="kptd-3216qbc-d-01">
+<attribute name="FARNELL" value="2290349"/>
+</part>
 <part name="D2" library="SparkFun-LED" deviceset="LED" device="3MM" value="PD204-6C"/>
 <part name="D3" library="SparkFun-LED" deviceset="LED" device="3MM" value="PD204-6C"/>
 <part name="D4" library="SparkFun-LED" deviceset="LED" device="3MM" value="PD204-6C"/>
@@ -7917,12 +7919,16 @@ Resettable Fuse. Spark Fun Electronics SKU : COM-08357</description>
 <part name="SUPPLY2" library="SparkFun-Aesthetics" deviceset="5V" device=""/>
 <part name="GND10" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="JP6" library="SparkFun-Connectors" deviceset="M01" device="PTH"/>
-<part name="Q1" library="SparkFun-DiscreteSemi" deviceset="MOSFET-NCHANNEL" device="BSS138" value="200mA/50V"/>
+<part name="Q1" library="SparkFun-DiscreteSemi" deviceset="MOSFET-NCHANNEL" device="BSS138" value="BSS138">
+<attribute name="FARNELL" value="9845330"/>
+</part>
 <part name="GND12" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="R10" library="SparkFun-Resistors" deviceset="RESISTOR" device="1206" value="10R"/>
 <part name="SUPPLY4" library="SparkFun-Aesthetics" deviceset="5V" device=""/>
 <part name="D5" library="SparkFun-DiscreteSemi" deviceset="MBRA140" device=""/>
-<part name="F1" library="SparkFun-PowerIC" deviceset="PTC" device="SMD"/>
+<part name="F1" library="SparkFun-PowerIC" deviceset="PTC" device="SMD" value="1206L200PR">
+<attribute name="FARNELL" value="2383297"/>
+</part>
 <part name="SUPPLY1" library="SparkFun-Aesthetics" deviceset="5V" device=""/>
 <part name="GND14" library="SparkFun-Aesthetics" deviceset="GND" device=""/>
 <part name="+3V4" library="supply1" deviceset="+3V3" device=""/>
@@ -7974,7 +7980,9 @@ Short lead (Collector) goes to +ve</text>
 <instance part="FRAME1" gate="G$1" x="0" y="0"/>
 <instance part="FRAME1" gate="V" x="147.32" y="0"/>
 <instance part="LOGO1" gate="G$1" x="132.08" y="33.02"/>
-<instance part="D10" gate="G$1" x="116.84" y="35.56"/>
+<instance part="D10" gate="G$1" x="116.84" y="35.56">
+<attribute name="FARNELL" x="116.84" y="35.56" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="D2" gate="G$1" x="15.24" y="38.1" rot="R180"/>
 <instance part="D3" gate="G$1" x="22.86" y="38.1" rot="R180"/>
 <instance part="D4" gate="G$1" x="30.48" y="38.1" rot="R180"/>
@@ -8003,12 +8011,16 @@ Short lead (Collector) goes to +ve</text>
 <instance part="SUPPLY2" gate="G$1" x="177.8" y="170.18"/>
 <instance part="GND10" gate="1" x="172.72" y="83.82"/>
 <instance part="JP6" gate="G$1" x="228.6" y="142.24" rot="R180"/>
-<instance part="Q1" gate="G$1" x="124.46" y="152.4"/>
+<instance part="Q1" gate="G$1" x="124.46" y="152.4">
+<attribute name="FARNELL" x="124.46" y="152.4" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="GND12" gate="1" x="124.46" y="142.24"/>
 <instance part="R10" gate="G$1" x="109.22" y="152.4"/>
 <instance part="SUPPLY4" gate="G$1" x="139.7" y="170.18"/>
 <instance part="D5" gate="G$1" x="190.5" y="86.36" rot="R90"/>
-<instance part="F1" gate="G$1" x="180.34" y="91.44"/>
+<instance part="F1" gate="G$1" x="180.34" y="91.44">
+<attribute name="FARNELL" x="180.34" y="91.44" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="SUPPLY1" gate="G$1" x="190.5" y="96.52"/>
 <instance part="GND14" gate="1" x="190.5" y="78.74"/>
 <instance part="+3V4" gate="G$1" x="76.2" y="38.1"/>
