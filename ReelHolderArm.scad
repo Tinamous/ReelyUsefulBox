@@ -17,7 +17,8 @@ smallerMatingDiameter = 8;
 
 // How mech space to leave between the inner and outer cylinder.
 // 0.2 on UM2+ left a very tight fit.
-cylinderMatingTollerance = 0.4;
+// 0.3 on UM2+ with RigidInk PLA also a tight fit.
+cylinderMatingTollerance = 0.35;
 
 // How much to redice the height of the end cylinders to ensure one fits fully in the other
 cylinderHeightTollerence = 2;
@@ -40,12 +41,13 @@ module arm() {
                 translate([0,0,0])  {
                     difference() {
                         union() {
-                          cylinder(d=reelTubeDiameter, h=supportWidth -cylinderHeightTollerence);
+                            // reduce by 2mm to ensure it's a tight fit.
+                          cylinder(d=reelTubeDiameter, h=supportWidth -cylinderHeightTollerence - 2);
                         }
                     
                         union() {
                             translate([0,0,armWidth]) {
-                                cylinder(d=smallerMatingDiameter + cylinderMatingTollerance, h=supportWidth - cylinderHeightTollerence +1);
+                                cylinder(d=smallerMatingDiameter + cylinderMatingTollerance, h=supportWidth - cylinderHeightTollerence + armWidth);
                             }
                         }
                     }
@@ -69,17 +71,17 @@ module arm() {
                     // Keep this short to reduce the maiting surface
                     // area when connected to the fatter cylidner
                     // otherwise it's difficult to seperate
-                    smallCylinderHeight = (blockWidth);
+                    smallCylinderHeight = (blockWidth-3);
                     translate([0,0,0]) { 
                         difference() {
                             union() {
                                 translate([0,0,0]) { 
-                                cylinder(d=smallerMatingDiameter + 0.2, h=smallCylinderHeight-cylinderMatingTollerance);
+                                cylinder(d=smallerMatingDiameter + 0.2, h=smallCylinderHeight-cylinderMatingTollerance - 2);
                                 }
                             }
                             union() {
                                 translate([0,0,armWidth]) { 
-                                    #cylinder(d=4.3, h=smallCylinderHeight );
+                                    cylinder(d=4.3, h=smallCylinderHeight + armWidth);
                                 }
                             }
                         }
@@ -90,7 +92,7 @@ module arm() {
         union() {
             translate([armLength/2, 0, -0.5]) {
                     // Countersink hole at top
-                    cylinder(d1=6, d2=3.4, h=armWidth+1);
+                    cylinder(d1=7, d2=3.4, h=armWidth+1);
                     // Ensure the hole runs all the way through
                     cylinder(d=3.4, h=supportWidth+1);
             }

@@ -73,7 +73,7 @@ tapeEntrySquareLength = 25; // from reel holder
             }
             union() {
                 translate([2, 0, 0]) {
-                    #cube([tapeEntrySquareLength, actualWidth  - backerWidth,lidPlasticThickness]);
+                    cube([tapeEntrySquareLength, actualWidth  - backerWidth,lidPlasticThickness]);
                 }
             }
         }
@@ -89,14 +89,14 @@ module enteranceCurve() {
             // 15mm start + 25mm hole l
             translate([40 + 5, 0, 0]) {
                 rotate([-90,0,0]) {
-                    cylinder(r=baseHeight, h=actualWidth  - backerWidth);
+                    cylinder(r=baseHeight, h=actualWidth);
                 }
             }
         }
         union() {
             // Slice off the bottom half of the cylinder
             translate([40 + 5 - baseHeight, 0, -baseHeight]) {
-                cube([baseHeight*2, actualWidth  - backerWidth, baseHeight]);
+               cube([baseHeight*2, actualWidth  , baseHeight]);
             }
         }
     }
@@ -104,7 +104,7 @@ module enteranceCurve() {
 
 module enteranceCutout() {
     translate([37, -0.01, 0]) {
-        #cube([8,actualWidth  - backerWidth,baseHeight+0.01]);
+        cube([8,actualWidth  - backerWidth,baseHeight+0.01]);
     }
     
     
@@ -184,6 +184,22 @@ module ledCounterHole() {
     }
 }
 
+
+// Hole for a pin to be placed through the tape
+// to pin it in place.
+module tapePinHole() {
+    
+    for(rep =  [1 : numberOfBlocksWide]) {
+        // Move to the far edge
+        // Then move in by xmm for the tape hole position
+        ledHoleY = (blockWidth * rep) - (tapeHoleOffset + backerWidth);
+        
+        translate([145,ledHoleY, -0.1]) {
+            #cylinder(d=1.5, h=baseHeight+0.2);           
+        }
+    }
+}
+
 // create little markers down one edge to indicate 10 components.
 module addMarker() {
     translate([blockXOffset + 28 ,actualWidth-backerWidth, 0]) {
@@ -247,7 +263,7 @@ echo ("blockXOffset", blockXOffset);
                     translate([-0.1, insertPosition, 7 - smdTapeGap]) {
                         rotate([0,90,0]) {
                             // Component counter mount hole
-                            #cylinder(d=4.2, h=10, $fn=50);
+                            cylinder(d=4.2, h=10, $fn=50);
                         }
                     }
                 }
@@ -306,6 +322,9 @@ difference() {
         
         // Add a hole for light to shine through to allow counting.
         ledCounterHole();
+        
+        // Hole for a pin to hold the tape in place.
+        tapePinHole();
         
         for(repYOffset =  [0 : 13 : actualWidth-1]) {
             //repYOffset = i * 13;
