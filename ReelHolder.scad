@@ -1,4 +1,4 @@
-$fn=100;
+$fn=360;
 
 include <Common.scad>;
 
@@ -11,7 +11,7 @@ supportHeight = 10;
 armLength = 20;
 armSupportLength = 2;
 armHeight = 150;
-armWidth = 2;
+armWidth = 2.0; // 1.1.6-1.8
 
 reelTubeDiameter = 12.6;
 
@@ -23,7 +23,7 @@ tapeWallWidth = backerWidth;
 module screwHole(xPosition, nutDepth) {
 echo ("nutDepth", nutDepth);
     // Screws at 13mm spacing (6.5mm from edge.
-    translate([xPosition,6.5, -0.1]) {
+    translate([xPosition, blockWidth/2, -0.1]) {
         // 4.2mm for M3 heat inserts.
         #cylinder(d=4.2, h=supportHeight +0.2);
         
@@ -52,8 +52,10 @@ module ledHole() {
     
     for (rep = [0 : numberOfBlocksWide -1]) {
         ledHoleY = tapeWallWidth + tapeHoleOffset + (rep * blockWidth);
-        echo ("ledHoldY", ledHoleY);
-        echo ("ledHoldX", ledHoleX);
+        
+        echo ("led Hole X", ledHoleX);
+        echo ("led Hole Y", ledHoleY);
+        
         
         translate([ledHoleX, ledHoleY, -1]) {
             cylinder(d=5, h=12);
@@ -61,12 +63,16 @@ module ledHole() {
     }
 }
 
-module tapeEnterance(blockNumber) {
+
 tapeCutoutLength = 25;    
 tapeCutoutDepth = supportHeight;
 tapeCutoutWidth = supportWidth - 3;
+
+
+module tapeEnterance(blockNumber) {
+
     
-    translate([14.5, backerWidth, 0]) {
+    translate([14.5, backerWidth, -0.01]) {
         difference() {
             union() {
                 cube([tapeCutoutLength,tapeCutoutWidth, tapeCutoutDepth + 0.1]);
@@ -74,10 +80,20 @@ tapeCutoutWidth = supportWidth - 3;
             union() {
                 translate([tapeCutoutLength, 0, tapeCutoutDepth/2]) {
                     rotate([-90,0,0]) {
-                        cylinder(d=tapeCutoutDepth, h=tapeCutoutWidth);
+                       cylinder(d=tapeCutoutDepth, h=tapeCutoutWidth);
                     }
                 }
             
+            }
+        }
+    }
+}
+
+module tapeEnteranceGuide() {
+    translate([14.5, 0, -0.01]) {
+        translate([tapeCutoutLength, 0, tapeCutoutDepth/2+10]) {
+            rotate([-90,0,0]) {
+                 //  #cylinder(d=tapeCutoutDepth+20, h=supportWidth);
             }
         }
     }
@@ -91,7 +107,7 @@ module base() {
             translate([(supportLength - armLength)/2, 0, 12]) {
                 translate([armLength/2, 0, 0]) {
                     rotate([-90,0,0]) {                
-                        cylinder(d=20, h=supportWidth);
+                       cylinder(d=20, h=supportWidth);
                     }
                 }
             }
@@ -130,6 +146,8 @@ module base() {
             tapeEnterance();
         }
     }
+    
+    tapeEnteranceGuide();
 }
 
 
@@ -143,7 +161,7 @@ difference() {
         // side from the reel tape holes.
         // + 20 for the cylinder holding the arms
         translate([0,supportWidth - blockPrinterTollerance,0]) {
-            #cube([supportLength,blockPrinterTollerance,supportHeight + 20]);
+            cube([supportLength,blockPrinterTollerance,supportHeight + 20]);
         }
     }
 }

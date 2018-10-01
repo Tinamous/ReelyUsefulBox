@@ -9,7 +9,7 @@ supportWidth = (blockWidth * numberOfBlocksWide) - 0.25; // To match block width
 armLength = 20;
 armSupportLength = 2;
 armHeight = 120;
-armWidth = 1;
+armWidth = 1.8; // 0.6mm nozzle
 
 reelTubeDiameter = 12.6;
 
@@ -18,12 +18,20 @@ smallerMatingDiameter = 8;
 // How mech space to leave between the inner and outer cylinder.
 // 0.2 on UM2+ left a very tight fit.
 // 0.3 on UM2+ with RigidInk PLA also a tight fit.
-cylinderMatingTollerance = 0.35;
+// 0.5 should be easy fit, then use M3 countersunk 12mm screws to join.
+cylinderMatingTollerance = 0.5;
 
 // How much to redice the height of the end cylinders to ensure one fits fully in the other
-cylinderHeightTollerence = 2;
+//cylinderHeightTollerence = 2;
 
 module arm() {
+    /*
+    // Test cube to check assumption on height.
+    translate([20,0,0]) {
+        cube([10,10,15]);
+    }
+    */
+    
     difference() {
         union() {
             // Fat outer cylinger.
@@ -41,13 +49,12 @@ module arm() {
                 translate([0,0,0])  {
                     difference() {
                         union() {
-                            // reduce by 2mm to ensure it's a tight fit.
-                          cylinder(d=reelTubeDiameter, h=supportWidth -cylinderHeightTollerence - 2);
+                          cylinder(d=reelTubeDiameter, h=supportWidth - armWidth );
                         }
                     
                         union() {
                             translate([0,0,armWidth]) {
-                                cylinder(d=smallerMatingDiameter + cylinderMatingTollerance, h=supportWidth - cylinderHeightTollerence + armWidth);
+                                cylinder(d=smallerMatingDiameter + cylinderMatingTollerance, h=supportWidth - armWidth);
                             }
                         }
                     }
@@ -76,12 +83,18 @@ module arm() {
                         difference() {
                             union() {
                                 translate([0,0,0]) { 
-                                cylinder(d=smallerMatingDiameter + 0.2, h=smallCylinderHeight-cylinderMatingTollerance - 2);
+                                    // 1mm fudge tollerance.
+                                    cylinder(d=smallerMatingDiameter + 0.2, h=smallCylinderHeight - armWidth - 1);
                                 }
                             }
                             union() {
+                                // Hole to screw into with an M3 machine screw
                                 translate([0,0,armWidth]) { 
-                                    cylinder(d=4.3, h=smallCylinderHeight + armWidth);
+                                    cylinder(d=3.0, h=smallCylinderHeight + armWidth);
+                                }
+                                // small countersink to help get the screw started
+                                translate([0,0, smallCylinderHeight - armWidth - 1 - 2]) { 
+                                    cylinder(d1=3.0,d2=4.2, h=2.01);
                                 }
                             }
                         }

@@ -16,8 +16,7 @@ backerWidth = 1.5; // 1.5;
 // 12mm tape + backer = 13.5 >> block width
 
 // How wide the thing is.
-//blockWidth = 13-0.1;
-blockWidth = 13;
+blockWidth = 15;
 
 // How many block units (e.g. 13mm's) wide
 // Mounting holes will be duplicated but 

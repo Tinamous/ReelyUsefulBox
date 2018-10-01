@@ -34,7 +34,9 @@ module backer(thickness) {
         }
         
         translate([-2,-54,0]) {
-            cube([25,3,thickness]);
+            rotate([0,0,10]) {
+                cube([25,3,thickness]);
+            }
         }
     }
 }
@@ -46,8 +48,12 @@ module componentReleaser () {
             cylinder(d=30, h=actualWidth);
 
             // Flat exctending back.
-            translate([-45,11,0]) {
-                cube([45,4,actualWidth]);
+            translate([-35.5,11,0]) {
+                cube([35.5,4,actualWidth]);
+            }
+            
+            translate([-(32.5 + 8),2,0]) {
+                #cube([9,9,actualWidth]);
             }
 
             // front cylinder
@@ -60,15 +66,12 @@ module componentReleaser () {
                 cylinder(d=14, h=actualWidth);
             }
             
-            // Component collector
+            // Component collector (component should be released by the tape
+            // on the main large cylinder and fall onto this.
             translate([22,-24,0]) {
-                rotate([0, 0, 45]) {
+                rotate([0, 5, 45]) {
                     cube([2,15,actualWidth]);
                 }
-            }
-            
-            translate([-(32.5 + 8),3,0]) {
-                cube([8,8,actualWidth]);
             }
         }
         union() {
@@ -91,23 +94,36 @@ module componentReleaser () {
 module bottomShelf() {
     // tray to hold the pot for the components
     translate([0,-54,0]) {
+        
+        // Bottom shelf for bottle to sit on
         translate([10,0,0]) {
-            cube([30,3,actualWidth]);
+            rotate([0,0,10]) {
+                cube([35,3,actualWidth]);
+                
+                translate([35,1.5,0]) {
+                    cylinder(d=3, h=actualWidth);
+                }
+            }
         }
-        translate([40,1.5,0]) {
-            cylinder(d=3, h=actualWidth);
-        }
-
+        
+        
         // stopper for component bottle
-        translate([15,0,0]) {
-            cube([3,8,actualWidth]);
+        translate([20,2,0]) {
+            rotate([0,0,10]) {
+                #cube([3,20,actualWidth]);
+            }
         }
 
         // lowest cylinder to bring the tape around
         translate([5,0,0]) {
             difference() {
-                cylinder(d=14, h=actualWidth);
-                cylinder(d=4.2, h=actualWidth+0.1);
+                union() {
+                    cylinder(d=14, h=actualWidth);
+                }
+                union() {
+                    cylinder(d=5, h=actualWidth+0.1);
+                    cylinder(d1=8.2, d2=4.2, h=5);
+                }
             }
         }
     }
@@ -126,15 +142,28 @@ difference() {
     }
     union() {
         translate([0,0,-0.2]) {
-            cylinder(d=4.2, h=actualWidth+0.3);
-            
-            // Cutout for the pot
-            translate([18,-51,0]) {
-                cube([21,24, 26]);
+            // Hole, countersunk and hex nut space on the other end.
+            cylinder(d1=8, d2=5, h=4);         
+            cylinder(d=5, h=actualWidth+0.3);
+            translate([0,0, actualWidth-4]) {
+                cylinder(d=8.2, h=4.3,$fn=6);
             }
             
-            translate([5,-54,0]) {                
-                cylinder(d=4.2, h=actualWidth+0.1);
+            // Cutout for the pot
+            translate([22.5,-48.5,0]) {
+                rotate([0,0,10]) {
+                    cube([21,24, 26]);
+                }
+            }
+            
+            translate([5,-54,0]) {       
+                // repeat the hole for the lower wheel
+                // as it gets covered by the backer.
+                cylinder(d=5, h=actualWidth+0.1);
+                cylinder(d1=9, d2=5, h=4);         
+                translate([0,0, actualWidth-4]) {
+                    cylinder(d=8.2, h=4.3,$fn=6);
+                }
             }
         }
         
